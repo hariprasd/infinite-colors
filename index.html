@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: system-ui, sans-serif;
+                color: white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            const DURATION = 30000; // 30 seconds
+            let startTime = Date.now();
+
+            function updateBackground() {
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - startTime;
+
+                if (elapsedTime >= DURATION) {
+                    startTime = currentTime;
+                }
+
+                // Calculate progress (0 to 1)
+                const progress = (elapsedTime % DURATION) / DURATION;
+
+                // Hue: Complete rotation over the cycle (0-360)
+                const hue = progress * 360;
+
+                // Saturation: Keep high (85-100%) for vibrant colors
+                const saturation =
+                    92.5 + Math.sin(progress * Math.PI * 6) * 7.5;
+
+                // Lightness: Extended range to include darker colors (15-85%)
+                // Using cosine to spend more time in darker ranges
+                const lightness = 50 + Math.cos(progress * Math.PI * 4) * 35;
+
+                // Update the background color
+                document.body.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+                requestAnimationFrame(updateBackground);
+            }
+
+            updateBackground();
+        </script>
+    </body>
+</html>
